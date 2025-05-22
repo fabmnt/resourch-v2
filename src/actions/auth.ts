@@ -12,7 +12,6 @@ export async function signIn(prevState: unknown, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      success: false,
     }
   }
 
@@ -44,7 +43,6 @@ export async function signUp(prevState: unknown, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      success: false,
     }
   }
 

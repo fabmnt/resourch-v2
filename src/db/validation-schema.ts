@@ -17,5 +17,12 @@ export const signUpSchema = z
     message: 'Passwords do not match',
   })
 
+export const createResourceSchema = z.object({
+  name: z.string().min(1),
+  url: z.string().url(),
+  description: z.string().min(1),
+  imageUrl: z.union([z.string().url(), z.literal('')]).optional(),
+  ownerId: z.string(),
+})
 export type SignInSchema = z.infer<typeof signInSchema>
 export type SignUpSchema = z.infer<typeof signUpSchema>

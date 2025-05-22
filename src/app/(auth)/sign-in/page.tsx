@@ -13,7 +13,7 @@ import { toast } from 'sonner'
 export default function SignIn() {
   const [state, formAction, isPending] = useActionState(signIn, {
     errors: {},
-    success: false,
+    success: undefined,
     data: undefined,
   })
 

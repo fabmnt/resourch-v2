@@ -1,8 +1,7 @@
+import { CreateResourceModal } from '@/components/create-resource-modal'
 import ResourceCard from '@/components/resource-card'
-import { Button } from '@/components/ui/button'
 import { db } from '@/db'
 import { auth } from '@/lib/auth'
-import { PlusIcon } from 'lucide-react'
 import { headers } from 'next/headers'
 import { Suspense } from 'react'
 
@@ -21,14 +20,7 @@ export default async function Home() {
         <div className='container mx-auto flex flex-col gap-4'>
           {session && (
             <div className='flex justify-end'>
-              <Button
-                variant='outline'
-                size='lg'
-                className='cursor-pointer'
-              >
-                <PlusIcon className='h-4 w-4' />
-                Add Resource
-              </Button>
+              <CreateResourceModal userId={session.user.id} />
             </div>
           )}
           <Suspense fallback={<div>Loading...</div>}>
