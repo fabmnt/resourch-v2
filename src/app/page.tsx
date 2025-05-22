@@ -1,5 +1,6 @@
 import { CreateResourceModal } from '@/components/create-resource-modal'
 import ResourceCard from '@/components/resource-card'
+import ResourcesFallback from '@/components/resources-fallback'
 import { Button } from '@/components/ui/button'
 import { db } from '@/db'
 import { auth } from '@/lib/auth'
@@ -35,7 +36,7 @@ export default async function Home() {
               </Button>
             </div>
           )}
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<ResourcesFallback />}>
             <FeaturedResources />
           </Suspense>
         </div>
