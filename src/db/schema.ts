@@ -1,4 +1,5 @@
-import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { relations } from 'drizzle-orm'
+import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -59,3 +60,69 @@ export const verification = pgTable('verification', {
     () => /* @__PURE__ */ new Date(),
   ),
 })
+
+export const resource = pgTable('resource', {
+  id: uuid('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  url: text('url').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+})
+
+export const resourceCategory = pgTable('resource_category', {
+  id: uuid('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+  resourceId: uuid('resource_id')
+    .notNull()
+    .references(() => resource.id, { onDelete: 'cascade' }),
+})
+
+export const resourceTag = pgTable('resource_tag', {
+  id: uuid('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+  resourceId: uuid('resource_id')
+    .notNull()
+    .references(() => resource.id, { onDelete: 'cascade' }),
+})
+
+// Relations
+
+export const resourceRelations = relations(resource, ({ many, one }) => ({
+  categories: one(resourceCategory, {
+    fields: [resource.id],
+    references: [resourceCategory.resourceId],
+  }),
+  tags: many(resourceTag),
+}))
+
+export const resourceTagRelations = relations(resourceTag, ({ one }) => ({
+  resource: one(resource, {
+    fields: [resourceTag.resourceId],
+    references: [resource.id],
+  }),
+}))
+
+export const resourceCategoryRelations = relations(
+  resourceCategory,
+  ({ one }) => ({
+    resource: one(resource, {
+      fields: [resourceCategory.resourceId],
+      references: [resource.id],
+    }),
+  }),
+)
+
+export type Resource = typeof resource.$inferSelect
+export type ResourceCategory = typeof resourceCategory.$inferSelect
+export type ResourceTag = typeof resourceTag.$inferSelect
+export type ResourceWithCategoriesAndTags = Resource & {
+  categories: ResourceCategory[]
+  tags: ResourceTag[]
+}
