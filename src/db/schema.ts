@@ -69,6 +69,9 @@ export const resource = pgTable('resource', {
   url: text('url').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
+  ownerId: text('owner_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
 })
 
 export const resourceCategory = pgTable('resource_category', {
@@ -80,6 +83,9 @@ export const resourceCategory = pgTable('resource_category', {
   resourceId: uuid('resource_id')
     .notNull()
     .references(() => resource.id, { onDelete: 'cascade' }),
+  ownerId: text('owner_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
 })
 
 export const resourceTag = pgTable('resource_tag', {
@@ -91,6 +97,9 @@ export const resourceTag = pgTable('resource_tag', {
   resourceId: uuid('resource_id')
     .notNull()
     .references(() => resource.id, { onDelete: 'cascade' }),
+  ownerId: text('owner_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
 })
 
 // Relations
@@ -101,12 +110,26 @@ export const resourceRelations = relations(resource, ({ many, one }) => ({
     references: [resourceCategory.resourceId],
   }),
   tags: many(resourceTag),
+  owner: one(user, {
+    fields: [resource.ownerId],
+    references: [user.id],
+  }),
+}))
+
+export const userRelations = relations(user, ({ many }) => ({
+  resources: many(resource),
+  resourceCategories: many(resourceCategory),
+  resourceTags: many(resourceTag),
 }))
 
 export const resourceTagRelations = relations(resourceTag, ({ one }) => ({
   resource: one(resource, {
     fields: [resourceTag.resourceId],
     references: [resource.id],
+  }),
+  owner: one(user, {
+    fields: [resourceTag.ownerId],
+    references: [user.id],
   }),
 }))
 
@@ -116,6 +139,10 @@ export const resourceCategoryRelations = relations(
     resource: one(resource, {
       fields: [resourceCategory.resourceId],
       references: [resource.id],
+    }),
+    owner: one(user, {
+      fields: [resourceCategory.ownerId],
+      references: [user.id],
     }),
   }),
 )
