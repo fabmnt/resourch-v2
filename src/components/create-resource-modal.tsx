@@ -39,7 +39,6 @@ export function CreateResourceModal({ userId }: { userId: string }) {
         <Button
           variant='outline'
           size='lg'
-          className='cursor-pointer'
         >
           <PlusIcon className='h-4 w-4' />
           Add Resource

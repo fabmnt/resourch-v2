@@ -1,8 +1,10 @@
 import { CreateResourceModal } from '@/components/create-resource-modal'
 import ResourceCard from '@/components/resource-card'
+import { Button } from '@/components/ui/button'
 import { db } from '@/db'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
+import Link from 'next/link'
 import { Suspense } from 'react'
 
 export default async function Home() {
@@ -18,9 +20,19 @@ export default async function Home() {
           <p className='text-lg'>Save all your resources in one place</p>
         </div>
         <div className='container mx-auto flex flex-col gap-4'>
-          {session && (
+          {session ? (
             <div className='flex justify-end'>
               <CreateResourceModal userId={session.user.id} />
+            </div>
+          ) : (
+            <div className='flex justify-end'>
+              <Button
+                asChild
+                variant='outline'
+                size='lg'
+              >
+                <Link href='/sign-in'>Sign in</Link>
+              </Button>
             </div>
           )}
           <Suspense fallback={<div>Loading...</div>}>
