@@ -62,7 +62,8 @@ export const verification = pgTable('verification', {
 })
 
 export const resource = pgTable('resource', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
+  imageUrl: text('image_url'),
   name: text('name').notNull(),
   description: text('description'),
   url: text('url').notNull(),
@@ -71,7 +72,7 @@ export const resource = pgTable('resource', {
 })
 
 export const resourceCategory = pgTable('resource_category', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   description: text('description'),
   createdAt: timestamp('created_at').defaultNow(),
@@ -82,7 +83,7 @@ export const resourceCategory = pgTable('resource_category', {
 })
 
 export const resourceTag = pgTable('resource_tag', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   description: text('description'),
   createdAt: timestamp('created_at').defaultNow(),
@@ -123,6 +124,6 @@ export type Resource = typeof resource.$inferSelect
 export type ResourceCategory = typeof resourceCategory.$inferSelect
 export type ResourceTag = typeof resourceTag.$inferSelect
 export type ResourceWithCategoriesAndTags = Resource & {
-  categories: ResourceCategory[]
+  categories: ResourceCategory
   tags: ResourceTag[]
 }
