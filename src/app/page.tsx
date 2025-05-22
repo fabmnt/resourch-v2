@@ -40,7 +40,7 @@ export default async function Home() {
   )
 }
 
-export async function FeaturedResources() {
+async function FeaturedResources() {
   const resources = await db.query.resource.findMany({
     with: {
       categories: true,
