@@ -19,14 +19,16 @@ export default function ResourceCard({
 }) {
   return (
     <Card className='group rounded-sm py-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg'>
-      <CardHeader className='gap-0'>
+      <CardHeader className='flex flex-row gap-0 gap-x-2'>
         <div>
           <Avatar>
             <AvatarImage src={resource.imageUrl ?? ''} />
-            <AvatarFallback>{getInitials(resource.name)}</AvatarFallback>
+            <AvatarFallback className='border text-xs font-bold tracking-wider text-neutral-600 uppercase'>
+              {getInitials(resource.name)}
+            </AvatarFallback>
           </Avatar>
         </div>
-        <div className='flex items-center justify-between'>
+        <div className='flex flex-1 items-center justify-between'>
           <div>
             <CardTitle>{resource.name}</CardTitle>
             <CardDescription>{resource.description}</CardDescription>
