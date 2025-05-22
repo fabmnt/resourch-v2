@@ -18,7 +18,7 @@ export default function ResourceCard({
   resource: ResourceWithCategoriesAndTags
 }) {
   return (
-    <Card className='group rounded-sm py-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg'>
+    <Card className='group cursor-pointer rounded-sm py-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg'>
       <CardHeader className='flex flex-row gap-0 gap-x-2'>
         <div>
           <Avatar>

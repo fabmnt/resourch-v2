@@ -1,5 +1,7 @@
 import ResourceCard from '@/components/resource-card'
+import { Button } from '@/components/ui/button'
 import { db } from '@/db'
+import { PlusIcon } from 'lucide-react'
 import { Suspense } from 'react'
 
 export default function Home() {
@@ -10,7 +12,17 @@ export default function Home() {
           <h1 className='text-2xl font-bold'>Resourch v2</h1>
           <p className='text-lg'>Save all your resources in one place</p>
         </div>
-        <div className='container mx-auto'>
+        <div className='container mx-auto flex flex-col gap-4'>
+          <div className='flex justify-end'>
+            <Button
+              variant='outline'
+              size='lg'
+              className='cursor-pointer'
+            >
+              <PlusIcon className='h-4 w-4' />
+              Add Resource
+            </Button>
+          </div>
           <Suspense fallback={<div>Loading...</div>}>
             <FeaturedResources />
           </Suspense>
