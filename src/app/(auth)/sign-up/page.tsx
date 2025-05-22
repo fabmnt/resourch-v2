@@ -6,7 +6,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Form from 'next/form'
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { redirect } from 'next/navigation'
+import { useActionState, useEffect } from 'react'
+import { toast } from 'sonner'
 
 export default function SignUp() {
   const [state, formAction, isPending] = useActionState(signUp, {
@@ -14,6 +16,16 @@ export default function SignUp() {
     success: false,
     data: undefined,
   })
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success('Account created successfully')
+      redirect('/sign-in')
+    }
+    if (state?.success === false) {
+      toast.error('An error occurred while creating an account')
+    }
+  }, [state?.success])
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-center px-4'>
