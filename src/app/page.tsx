@@ -1,10 +1,16 @@
 import ResourceCard from '@/components/resource-card'
 import { Button } from '@/components/ui/button'
 import { db } from '@/db'
+import { auth } from '@/lib/auth'
 import { PlusIcon } from 'lucide-react'
+import { headers } from 'next/headers'
 import { Suspense } from 'react'
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
   return (
     <main className='min-h-screen'>
       <div className='flex flex-col gap-6'>
@@ -13,16 +19,18 @@ export default function Home() {
           <p className='text-lg'>Save all your resources in one place</p>
         </div>
         <div className='container mx-auto flex flex-col gap-4'>
-          <div className='flex justify-end'>
-            <Button
-              variant='outline'
-              size='lg'
-              className='cursor-pointer'
-            >
-              <PlusIcon className='h-4 w-4' />
-              Add Resource
-            </Button>
-          </div>
+          {session && (
+            <div className='flex justify-end'>
+              <Button
+                variant='outline'
+                size='lg'
+                className='cursor-pointer'
+              >
+                <PlusIcon className='h-4 w-4' />
+                Add Resource
+              </Button>
+            </div>
+          )}
           <Suspense fallback={<div>Loading...</div>}>
             <FeaturedResources />
           </Suspense>
