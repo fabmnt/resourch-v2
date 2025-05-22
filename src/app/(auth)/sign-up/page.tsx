@@ -106,12 +106,6 @@ export default function SignUp() {
             </div>
           </div>
 
-          {state && state.success === false && (
-            <div className='text-sm text-red-500'>
-              Failed to create account.
-            </div>
-          )}
-
           <Button
             type='submit'
             className='w-full'

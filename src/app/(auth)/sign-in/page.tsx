@@ -69,12 +69,6 @@ export default function SignIn() {
             </div>
           </div>
 
-          {state && !state.success && state.success !== undefined && (
-            <div className='text-sm text-red-500'>
-              Invalid email or password.
-            </div>
-          )}
-
           <Button
             type='submit'
             className='w-full'
